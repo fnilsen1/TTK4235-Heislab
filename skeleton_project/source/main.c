@@ -17,6 +17,12 @@ int main(){
     while(1){
         int floor = elevio_floorSensor(); //keep this
 
+        Elevator elevator;
+        //int callButton = elevio_callButton(0, BUTTON_CAB);
+        //printf("callbutton: %d\r\n", callButton); 
+
+        //printf("%d\n",floor);
+        
         if(floor == 0){
             elevio_motorDirection(DIRN_UP);
         }
@@ -28,10 +34,16 @@ int main(){
 
         for(int f = 0; f < N_FLOORS; f++){
             for(int b = 0; b < N_BUTTONS; b++){
-                int btnPressed = elevio_callButton(f, b);
+                int btnPressed = elevio_callButton(f, b); 
+                //printf(".\r\n");
                 elevio_buttonLamp(f, b, btnPressed);
+                if (btnPressed == 1) {
+                    //printf("hei\r\n");
+                    printf("button %i floor %i", b, f);
+                }
             }
         }
+
 
 
         if(elevio_obstruction()){
@@ -45,7 +57,7 @@ int main(){
             break;
         }
         
-        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
+        nanosleep(&(struct timespec){0, 20}, NULL);
     }
 
     return 0;
