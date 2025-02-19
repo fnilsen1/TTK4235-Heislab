@@ -55,7 +55,7 @@ struct elevator {
     MotorDirection motdir;
     int motdirint;
 };
-
+added a comment test for user.name 
 struct elevator* elev;
 elev->motdir = DIRN_DOWN;
 elev->motdirint = -1;
