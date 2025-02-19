@@ -15,7 +15,7 @@ int main(){
     elevio_motorDirection(DIRN_UP);
 
     while(1){
-        int floor = elevio_floorSensor();
+        int floor = elevio_floorSensor(); //keep this
 
         if(floor == 0){
             elevio_motorDirection(DIRN_UP);
@@ -33,6 +33,7 @@ int main(){
             }
         }
 
+
         if(elevio_obstruction()){
             elevio_stopLamp(1);
         } else {
@@ -49,3 +50,13 @@ int main(){
 
     return 0;
 }
+/*
+struct elevator {
+    MotorDirection motdir;
+    int motdirint;
+};
+
+struct elevator* elev;
+elev->motdir = DIRN_DOWN;
+elev->motdirint = -1;
+*/
