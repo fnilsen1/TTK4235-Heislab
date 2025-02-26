@@ -2,11 +2,13 @@
 
 static int previousFloorSensorSignal = 0;
 
-
-void initializeElevator(){
+void initializeElevator()
+{
     int floor = elevio_floorSensor();
-    if (floor != 0){
+    while (floor != 0)
+    {
+        floor = elevio_floorSensor();
         elevio_motorDirection(DIRN_DOWN);
     }
-
+    elevio_motorDirection(DIRN_STOP);
 }
