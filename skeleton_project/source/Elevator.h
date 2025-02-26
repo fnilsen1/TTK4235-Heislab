@@ -5,8 +5,4 @@
 #include <time.h>
 #include "driver/elevio.h"
 
-typedef struct{
-    int currentFloor;
-    int direction;
-
-}Elevator;
+void initializeElevator();
