@@ -1,25 +1,31 @@
-/*#include "buttons.h"
+#include "Order.h"
 
 
-void elevator_button_call_floor(){
-    int desiredFloor = elevio_callButton(0, BUTTON_CAB);
+void check_to_add_order(Elevator* p_ElevatorInstance,int f,int b){
+    int btnPressed = elevio_callButton(f, b);
+    if (btnPressed){
+        printf("Floor: %d, Button number: %d\n", 
+            f, b);
+        switch (b) {
+            case 0: //ButtonType is BUTTON_HALL_UP
+                p_ElevatorInstance->outside_requests[f] = 1; //1 in outside_request array means UP
+                
+                printf("request made outside from floor: [ %i ] to go [ UP ]\n",f);
 
-    switch (desiredFloor)
-    {
-        case 0:
-            //user presses 1st floor button on panel 
-        break;
-        case 1:
-            //user presses 2nd floor button on panel
-        case 2:
-            //user presses 3rd floor button on panel
-        case 3:
-            //user presses 4th floor button on panel
-    
-        default:
-            break;
+                break;
+            case 1: //ButtonType is BUTTON_HALL_DOWN
+                p_ElevatorInstance->outside_requests[f] = 2; //2  in -||- array means DOWN
+                
+                printf("request made outside from floor: [ %i ] to go [ DOWN ]\n",f);
+                break;
+            case 2: //ButtonType is BUTTON_CAB
+                p_ElevatorInstance->CAB_requests[f] = 1;
+                printf("request made INSIDE CAB to go to FLOOR [ %i ] \n",f);     
+            }
+            
+
     }
-    elevio_callButton(desiredFloor,BUTTON_CAB);
 }
 
-*/
+
+

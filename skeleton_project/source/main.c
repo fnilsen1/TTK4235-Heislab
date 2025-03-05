@@ -4,6 +4,7 @@
 #include <time.h>
 #include "driver/elevio.h"
 #include "Elevator.h"
+#include "Order.h"
 
 
 
@@ -11,7 +12,7 @@
 int main()
 {
 
-    elevio_init();
+    elevio_init(); //IKKE RØR
 
 
     printf("=== Example Program ===\n");
@@ -26,6 +27,14 @@ int main()
     
     while (1)
     {
+        for (int f = 0; f < N_FLOORS; f++)
+        {
+            for (int b = 0; b < N_BUTTONS; b++)
+            {
+                check_to_add_order(p_ElevatorInstance,f,b);
+            }
+            
+        }
 
         
 
