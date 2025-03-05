@@ -5,22 +5,30 @@
 #include "driver/elevio.h"
 #include "Elevator.h"
 
+
+
+
 int main()
 {
-    elevio_init();
+
+
+
 
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
 
     // elevio_motorDirection(DIRN_UP);
 
-    initializeElevator();
-    int current_floor_request = 999;
-    int button_number = 999;
-    int btnPressed = 999;
+    //Elevator ElevatorInstance = {0, false, false, false,false};
+    //Elevator* p_ElevatorInstance = &ElevatorInstance;
+    //initialize_elevator(p_ElevatorInstance);
+
+    
     while (1)
     {
-        int floor = elevio_floorSensor(); // keep this
+
+        
+
         // printf("%d\n",floor);
 
         // int callButton = elevio_callButton(0, BUTTON_CAB);
@@ -28,7 +36,7 @@ int main()
 
         // printf("%d\n",floor);
 
-        for (int f = 0; f < N_FLOORS; f++)
+        /*for (int f = 0; f < N_FLOORS; f++)
         {
             for (int b = 0; b < N_BUTTONS; b++)
             {
@@ -98,16 +106,8 @@ int main()
 
         nanosleep(&(struct timespec){0, 20}, NULL);
     }
-
-    return 0;
+    */
+    
+    }
+    return 0;  
 }
-/*
-struct elevator {
-    MotorDirection motdir;
-    int motdirint;
-};
-
-struct elevator* elev;
-elev->motdir = DIRN_DOWN;
-elev->motdirint = -1;
-*/
