@@ -18,12 +18,12 @@ int main()
     initializeElevator();
 
     //Initialize struct with some default values
-    Elevator elevator_instance = {999, 999, 999, 999, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    Elevator elevator_instance = {999, 999, 999, 999, 999, {0, 0, 0, 0}, {0, 0, 0, 0}};
     Elevator* e = &elevator_instance;
 
     while (1)
     {
-        int floor = elevio_floorSensor(); // keep this
+        e->current_floor = elevio_floorSensor(); // keep this
         // printf("%d\n",floor);
 
         // int callButton = elevio_callButton(0, BUTTON_CAB);
@@ -35,22 +35,22 @@ int main()
         {
             for (int b = 0; b < N_BUTTONS; b++)
             {
-                // printf("button %i floor %i\n", b, f);
+                // printf("button %i fxloor %i\n", b, f);
                 e->button_pressed = elevio_callButton(f, b);
                 if(e->button_pressed){
-                    e->floor_requested = f;
+                    e->button_floor = f;
                     e->button_type_requested = b;
-                    elevator_control(e);
+                    button_manager(e);
 
                 }
 
             }
         }
 
-        if (floor == e->floor_requested)
+        if (e->current_floor == e->button_floor)
         {
             elevio_motorDirection(DIRN_STOP);
-            printf("%d\n", floor);
+            printf("%d\n", e->current_floor);
         }
 
 

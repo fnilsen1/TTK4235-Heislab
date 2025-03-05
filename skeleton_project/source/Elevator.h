@@ -21,8 +21,9 @@ inside_requests[]
 
 typedef struct Elevator{
 int current_floor;
-int floor_requested;
+int current_directon;
 int button_pressed;
+int button_floor;
 int button_type_requested;
 int outside_requests[4];
 int inside_requests[4];
