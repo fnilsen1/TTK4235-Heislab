@@ -11,7 +11,7 @@
 int main()
 {
 
-
+    elevio_init();
 
 
     printf("=== Example Program ===\n");
@@ -19,9 +19,9 @@ int main()
 
     // elevio_motorDirection(DIRN_UP);
 
-    //Elevator ElevatorInstance = {0, false, false, false,false};
-    //Elevator* p_ElevatorInstance = &ElevatorInstance;
-    //initialize_elevator(p_ElevatorInstance);
+    Elevator ElevatorInstance = {0, false, false, false,false};
+    Elevator* p_ElevatorInstance = &ElevatorInstance;
+    initialize_elevator(p_ElevatorInstance);
 
     
     while (1)
@@ -104,10 +104,10 @@ int main()
             break;
         }
 
-        nanosleep(&(struct timespec){0, 20}, NULL);
+        
     }
     */
-    
+    nanosleep(&(struct timespec){0, 20}, NULL);
     }
     return 0;  
 }
