@@ -4,6 +4,7 @@
 #include <time.h>
 #include "driver/elevio.h"
 #include "Elevator.h"
+#include "utilities.h"
 
 int main()
 {
@@ -15,9 +16,11 @@ int main()
     // elevio_motorDirection(DIRN_UP);
 
     initializeElevator();
-    int current_floor_request = 999;
-    int button_number = 999;
-    int btnPressed = 999;
+
+    //Initialize struct with some default values
+    Elevator elevator_instance = {999, 999, 999, 999, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    Elevator* e = &elevator_instance;
+
     while (1)
     {
         int floor = elevio_floorSensor(); // keep this
@@ -33,53 +36,27 @@ int main()
             for (int b = 0; b < N_BUTTONS; b++)
             {
                 // printf("button %i floor %i\n", b, f);
-                btnPressed = elevio_callButton(f, b);
-                // //printf(".\r\n");
-                // elevio_buttonLamp(f, b, btnPressed);
-                // if (btnPressed == 1) {
-                //     //printf("hei\r\n");
-                //     printf("button %i floor %i\n", b, f);
-                // }
-                if (btnPressed)
-                {
-                    printf("Button pressed: %d\n", btnPressed);
-                    current_floor_request = f;
-                    button_number = b;
-                    printf("current floor: %d button_number: %d\n", current_floor_request, button_number);
-                    printf("Sensor floor: %d\n", floor);
+                e->button_pressed = elevio_callButton(f, b);
+                if(e->button_pressed){
+                    e->floor_requested = f;
+                    e->button_type_requested = b;
+                    elevator_control(e);
 
-                    if (floor - f > 0)
-                    {
-                        elevio_motorDirection(DIRN_DOWN);
-                    }
-                    //
-
-                    else if ((floor - f < 0) && (floor!=-1))
-                    {
-                        elevio_motorDirection(DIRN_UP);
-                    }
-                    break;
                 }
+
             }
         }
-        // printf("Button pressed: %d", btnPressed);
-        // if(btnPressed!=999){
-        //     printf("YES\n");
-        //     elevio_buttonLamp(current_floor_request, button_number, btnPressed);
-        // }
-        // elevio_buttonLamp(current_floor_request, button_number, btnPressed);
-        // elevio_buttonLamp(2, 0, 1);
 
-        // printf("%d\n",floor);
-        // elevio_motorDirection(DIRN_UP);
-        //     printf("Floor %d Current floor request: %d\n",floor, current_floor_request);
-        // elevio_buttonLamp(2,0,1);
-
-        if (floor == current_floor_request)
+        if (floor == e->floor_requested)
         {
             elevio_motorDirection(DIRN_STOP);
             printf("%d\n", floor);
         }
+
+
+
+
+
 
         if (elevio_obstruction())
         {
@@ -101,13 +78,3 @@ int main()
 
     return 0;
 }
-/*
-struct elevator {
-    MotorDirection motdir;
-    int motdirint;
-};
-
-struct elevator* elev;
-elev->motdir = DIRN_DOWN;
-elev->motdirint = -1;
-*/
