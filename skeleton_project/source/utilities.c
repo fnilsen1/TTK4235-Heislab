@@ -32,6 +32,7 @@ void button_manager(Elevator *e)
 
     if (e->button_type_requested == 0)
     {
+        printf("outside button pressed\n");
         e->outside_requests[e->button_floor] = 1;
     }
 
@@ -54,7 +55,7 @@ void button_manager(Elevator *e)
 
 void set_next_floor(Elevator *e)
 {
-
+   
     int outside_order_count = 0;
     int one_order_index = 0;
     for (int i = 0; i < 4; i++)
@@ -69,6 +70,11 @@ void set_next_floor(Elevator *e)
     if (outside_order_count == 1)
     {
         e->next_floor = one_order_index;
+        // printf("Next floor %d", one_order_index);
+    }
+
+    else{
+        
     }
 
     // Fortsett her
@@ -76,26 +82,28 @@ void set_next_floor(Elevator *e)
 
 void elevator_control(Elevator *e)
 {
-
-    if (e->current_floor - e->next_floor > 0)
+    set_next_floor(e);
+    // printf("Current floor: %d, next floor: %d\n", e->current_floor, e->next_floor);
+    
+    if (e->current_floor - e->next_floor > 0 && (e->current_floor != -1) && (e->next_floor<4))
     {
         elevio_motorDirection(DIRN_DOWN);
     }
     //
 
-    else if ((e->current_floor - e->next_floor < 0) && (e->current_floor != -1))
+    else if ((e->current_floor - e->next_floor < 0) && (e->current_floor != -1) && (e->next_floor<4))
     {
         elevio_motorDirection(DIRN_UP);
     }
 
-    else
+    else if(e->current_floor == e->next_floor)
     {
         elevio_motorDirection(DIRN_STOP);
         // clear requests from this floor
         e->outside_requests[e->current_floor] = 0;
         e->inside_requests[e->current_floor] = 0;
-        set_next_floor();
-        printf("Waiting for 3 seconds...\n");
-        sleep(3);
+        set_next_floor(e);
+        // printf("Waiting for 3 seconds...\n");
+        // sleep(3);
     }
 }

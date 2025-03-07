@@ -5,6 +5,7 @@
 #include "driver/elevio.h"
 #include "Elevator.h"
 #include "utilities.h"
+#include <unistd.h>
 
 int main()
 {
@@ -20,7 +21,7 @@ int main()
     // Initialize struct with some default values
     Elevator elevator_instance = {999, 999, 999, 999, 999, 999, {0, 0, 0, 0}, {0, 0, 0, 0}};
     Elevator *e = &elevator_instance;
-
+    
     while (1)
     {
         e->current_floor = elevio_floorSensor(); // keep this
