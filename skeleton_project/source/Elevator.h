@@ -4,7 +4,7 @@
 #include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
-
+#include <stdbool.h>
 /* 
 member variables:
 current floor
@@ -12,9 +12,9 @@ latest floor requested
 button pressed
 floor of button pressed
 type of button pressed
-//0: none, 1: up, 2: down
-outside_requests[]
+
 //0: not requested, 1: requested
+outside_requests[]
 inside_requests[]
 
  */
@@ -26,7 +26,9 @@ int button_pressed;
 int button_floor;
 int button_type_requested;
 int next_floor;
-int outside_requests[4];
+int elevator_active;
+//index 0 and 7 don't exist
+int outside_requests[8];
 int inside_requests[4];
 
 }Elevator;

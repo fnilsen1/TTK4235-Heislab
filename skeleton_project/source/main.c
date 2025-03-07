@@ -6,6 +6,7 @@
 #include "Elevator.h"
 #include "utilities.h"
 #include <unistd.h>
+#include <stdbool.h>
 
 int main()
 {
@@ -19,7 +20,7 @@ int main()
     initializeElevator();
 
     // Initialize struct with some default values
-    Elevator elevator_instance = {999, 999, 999, 999, 999, 999, {0, 0, 0, 0}, {0, 0, 0, 0}};
+    Elevator elevator_instance = {999, 999, 999, 999, 999, 999, 0, {0, 0, 0, 0,0,0}, {0, 0, 0, 0}};
     Elevator *e = &elevator_instance;
     
     while (1)
