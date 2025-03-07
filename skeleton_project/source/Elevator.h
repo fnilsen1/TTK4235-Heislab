@@ -25,6 +25,7 @@ int current_directon;
 int button_pressed;
 int button_floor;
 int button_type_requested;
+int next_floor;
 int outside_requests[4];
 int inside_requests[4];
 

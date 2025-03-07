@@ -4,10 +4,7 @@
 #include <time.h>
 #include "driver/elevio.h"
 #include "Elevator.h"
-
-
-
-
+#include <unistd.h>
 
 /* int button_pressed;
 typedef struct Elevator{
@@ -16,6 +13,7 @@ int current_directon;
 int button_pressed;
 int button_floor;
 int button_type_requested;
+int next_floor;
 
 //0: none, 1: up, 2: down
 int outside_requests[4];
@@ -28,52 +26,76 @@ int inside_requests[4];
 
  */
 
-void button_manager(Elevator* e){
+void button_manager(Elevator *e)
+{
     printf("button %i floor %i\n", e->button_type_requested, e->button_floor);
 
-
-    if (e->button_type_requested == 0){
-        e->outside_requests[e->button_floor]=1;
+    if (e->button_type_requested == 0)
+    {
+        e->outside_requests[e->button_floor] = 1;
     }
-    
-    else if(e->button_type_requested == 1){
-         e->outside_requests[e->button_floor]=-1;
+
+    else if (e->button_type_requested == 1)
+    {
+        e->outside_requests[e->button_floor] = -1;
     }
-    //inside button
-    else{
-        e->inside_requests[e->button_floor]=1;
+    // inside button
+    else
+    {
+        e->inside_requests[e->button_floor] = 1;
     }
-    
 
+    /*                     printf("Button pressed: %d\n", btnPressed); */
 
+    /*                     button_number = b;
+        printf("current floor: %d button_number: %d\n", current_floor_request, button_number);
+        printf("Sensor floor: %d\n", floor); */
+}
 
-    
-/*                     printf("Button pressed: %d\n", btnPressed); */
+void set_next_floor(Elevator *e)
+{
 
-/*                     button_number = b;
-    printf("current floor: %d button_number: %d\n", current_floor_request, button_number);
-    printf("Sensor floor: %d\n", floor); */
+    int outside_order_count = 0;
+    int one_order_index = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        if (e->outside_requests[i] != 0)
+        {
+            outside_order_count++;
+            one_order_index = i;
+        }
+    }
+    // Only 1 order in queue
+    if (outside_order_count == 1)
+    {
+        e->next_floor = one_order_index;
+    }
 
+    // Fortsett her
+}
 
+void elevator_control(Elevator *e)
+{
 
-
-                }
-
-void elevator_control(Elevator* e){
-
-
-
-
-
-    if (e->current_floor - e->button_floor > 0)
+    if (e->current_floor - e->next_floor > 0)
     {
         elevio_motorDirection(DIRN_DOWN);
     }
     //
 
-    else if ((e->current_floor - e->button_floor < 0) && (e->current_floor!=-1))
+    else if ((e->current_floor - e->next_floor < 0) && (e->current_floor != -1))
     {
         elevio_motorDirection(DIRN_UP);
     }
-    //break stod her
+
+    else
+    {
+        elevio_motorDirection(DIRN_STOP);
+        // clear requests from this floor
+        e->outside_requests[e->current_floor] = 0;
+        e->inside_requests[e->current_floor] = 0;
+        set_next_floor();
+        printf("Waiting for 3 seconds...\n");
+        sleep(3);
+    }
 }
