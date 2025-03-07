@@ -6,3 +6,4 @@
 #include "driver/elevio.h"
 
 
+bool floorButtonArray[N_BUTTONS*N_FLOORS];

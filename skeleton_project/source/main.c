@@ -4,7 +4,7 @@
 #include <time.h>
 #include "driver/elevio.h"
 #include "Elevator.h"
-#include "Order.h"
+#include "Control.h"
 
 
 
@@ -31,7 +31,13 @@ int main()
         {
             for (int b = 0; b < N_BUTTONS; b++)
             {
+                printf("ELevatorInstanceCurrent Floor: %i\n", p_ElevatorInstance->currentFloor);
                 check_to_add_order(p_ElevatorInstance,f,b);
+                lamps(p_ElevatorInstance,f,b);
+                elevator_control(p_ElevatorInstance);
+
+
+
             }
             
         }
