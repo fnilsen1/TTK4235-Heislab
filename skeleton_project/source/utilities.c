@@ -74,7 +74,7 @@ void set_next_floor(Elevator *e)
     }
 
     else{
-        
+
     }
 
     // Fortsett her
@@ -83,27 +83,35 @@ void set_next_floor(Elevator *e)
 void elevator_control(Elevator *e)
 {
     set_next_floor(e);
-    // printf("Current floor: %d, next floor: %d\n", e->current_floor, e->next_floor);
+    printf("Current direction %d, current floor direction: %d\n",e->current_directon, e->outside_requests[e->current_floor]);
     
-    if (e->current_floor - e->next_floor > 0 && (e->current_floor != -1) && (e->next_floor<4))
-    {
-        elevio_motorDirection(DIRN_DOWN);
-    }
-    //
+    // printf("Current floor: %d, next floor: %d\n", e->current_floor, e->next_floor);
 
-    else if ((e->current_floor - e->next_floor < 0) && (e->current_floor != -1) && (e->next_floor<4))
-    {
-        elevio_motorDirection(DIRN_UP);
-    }
 
-    else if(e->current_floor == e->next_floor)
+    if(e->current_floor == e->next_floor || e->current_directon == e->outside_requests[e->current_floor])
     {
         elevio_motorDirection(DIRN_STOP);
         // clear requests from this floor
         e->outside_requests[e->current_floor] = 0;
         e->inside_requests[e->current_floor] = 0;
-        set_next_floor(e);
+        // set_next_floor(e);
         // printf("Waiting for 3 seconds...\n");
         // sleep(3);
     }
+    
+    else if ((e->current_floor - e->next_floor < 0) && (e->current_floor != -1) && (e->next_floor<4))
+    {
+        elevio_motorDirection(DIRN_UP);
+        e->current_directon = 1;
+    }
+    
+    else if (e->current_floor - e->next_floor > 0 && (e->current_floor != -1) && (e->next_floor<4))
+    {
+        elevio_motorDirection(DIRN_DOWN);
+        e->current_directon = 2;
+    }
+    //
+
+
+
 }
